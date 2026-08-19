@@ -141,19 +141,14 @@ for i = 1:nChannels
     %  LABEL MATCHED PEAKS
     for p = 1:length(matched_pre_freq)
 
-        % Label near the pre-test peak
+        % label near the pre-test peak
         text(matched_pre_freq(p), ...
              matched_pre_mag(p), ...
              sprintf('  %.1f Hz', matched_pre_freq(p)), ...
              'FontSize', 7);
-
     end
 
-
-    %% --------------------------------------------------------
     %  GRAPH SETTINGS
-    % ---------------------------------------------------------
-
     grid on;
 
     title(names_pre{i}, 'Interpreter', 'none');
@@ -164,16 +159,11 @@ for i = 1:nChannels
     legend('Pre', 'Post', ...
            'Pre peaks', 'Post peaks', ...
            'Location', 'best');
-
 end
 
 sgtitle(['Pre/Post Resonance Search - ' axis]);
 
-
-%% ============================================================
 %  PRINT RESULTS TO CONSOLE
-% =============================================================
-
 fprintf('\n');
 fprintf('============================================================\n');
 fprintf(' PRE / POST RESONANCE SEARCH COMPARISON\n');
@@ -189,8 +179,7 @@ for i = 1:nChannels
     pre_freq  = f_pre(:,i);
     post_freq = f_post(:,i);
 
-
-    %% Find peaks again
+    % Find peaks again
 
     [pre_peaks, pre_freq_peaks, ~, pre_prom] = ...
         findpeaks(pre_mag, pre_freq, ...
@@ -202,9 +191,7 @@ for i = 1:nChannels
         'MinPeakProminence', minPeakProminence, ...
         'MinPeakDistance', minPeakDistance);
 
-
-    %% Match peaks
-
+    % Match peaks
     matched_pre_freq  = [];
     matched_post_freq = [];
     matched_pre_mag   = [];
@@ -232,9 +219,7 @@ for i = 1:nChannels
         end
     end
 
-
-    %% Calculate changes
-
+    % Calculate changes
     freq_shift_Hz = matched_post_freq - matched_pre_freq;
 
     freq_shift_percent = ...
@@ -246,11 +231,9 @@ for i = 1:nChannels
     magnitude_change_dB = ...
         20 * log10(matched_post_mag ./ matched_pre_mag);
 
-
-    %% Print channel
+    % Print channel
 
     fprintf('\n');
-    fprintf('------------------------------------------------------------\n');
     fprintf('%s\n', names_pre{i});
     fprintf('------------------------------------------------------------\n');
 
@@ -267,7 +250,7 @@ for i = 1:nChannels
             'Shift %', ...
             'Pre [g]', ...
             'Post [g]', ...
-            'Mag Δ [%]');
+            'Mag [%]');
 
         fprintf('%s\n', repmat('-',1,90));
 
@@ -281,7 +264,6 @@ for i = 1:nChannels
                 matched_pre_mag(p), ...
                 matched_post_mag(p), ...
                 magnitude_change_percent(p));
-
         end
 
         fprintf('\nMagnitude change [dB]:\n');
@@ -292,9 +274,6 @@ for i = 1:nChannels
                 matched_pre_freq(p), ...
                 matched_post_freq(p), ...
                 magnitude_change_dB(p));
-
         end
-
     end
-
 end
