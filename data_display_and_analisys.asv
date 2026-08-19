@@ -1,0 +1,62 @@
+close all; clear; clc;
+
+% Files
+pre_file  = 'X/RS_X/RS_preRND_X_1_HarmonicSpectrum.mat';
+post_file = 'X/RS_X/RS_postRND_X_1_HarmonicSpectrum.mat'; 
+
+% settings
+axis = 'X'; % plot only one axis of the accelerometers
+
+% Load data
+pre_data  = load(pre_file);
+post_data = load(post_file);
+
+pre  = pre_data.FrequencySpectrum;
+post = post_data.FrequencySpectrum;
+
+% Extract data
+f_pre  = pre.x_values.values;
+y_pre  = pre.y_values.values;
+
+f_post = post.x_values.values;
+y_post = post.y_values.values;
+
+names_pre  = pre.function_record.name;
+names_post = post.function_record.name;
+
+% Find selected axis
+idx_pre  = endsWith(names_pre, axis);
+idx_post = endsWith(names_post, axis);
+
+% Extract selected channels
+f_pre  = f_pre(:, idx_pre);
+y_pre  = y_pre(:, idx_pre);
+names_pre = names_pre(idx_pre);
+
+f_post  = f_post(:, idx_post);
+y_post  = y_post(:, idx_post);
+names_post = names_post(idx_post);
+
+% Plot
+nChannels = sum(idx_pre);
+
+figure('Name', ['Pre/Post Resonance Search - ' axis]);
+for i = 1:nChannels
+
+    subplot(2, 3, i);
+
+    plot(f_pre(:,i), abs(y_pre(:,i)));
+    hold on;
+
+    plot(f_post(:,i), abs(y_post(:,i)),);
+
+    grid on;
+
+    title(names_pre{i}, 'Interpreter', 'none');
+
+    xlabel('Frequency [Hz]');
+    ylabel('Magnitude [g]');
+
+    legend('Pre', 'Post', 'Location', 'best');
+
+end
