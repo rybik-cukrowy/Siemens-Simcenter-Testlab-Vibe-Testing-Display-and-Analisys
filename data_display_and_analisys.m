@@ -1,4 +1,7 @@
 close all; clear; clc;
+% ####
+% For analising pre and post modes (from RV)
+% ####
 
 % files
 pre_file  = 'X/RS_X/RS_preRND_X_1_HarmonicSpectrum.mat';
@@ -120,23 +123,17 @@ for i = 1:nChannels
     %  PLOT SPECTRA
     subplot(2,3,i);
 
-    plot(pre_freq, pre_mag, 'g', 'LineWidth', 1);
+    plot(pre_freq, pre_mag, 'g');
     hold on;
 
-    plot(post_freq, post_mag, 'm', 'LineWidth', 1);
+    plot(post_freq, post_mag, 'm');
 
     %  MARK PEAKS
     % detected pre-test peaks
-    plot(pre_freq_peaks, pre_peaks, ...
-        'go', ...
-        'MarkerFaceColor', 'g', ...
-        'MarkerSize', 5);
+    plot(pre_freq_peaks, pre_peaks, 'gp');
 
     % detected post-test peaks
-    plot(post_freq_peaks, post_peaks, ...
-        'mo', ...
-        'MarkerFaceColor', 'm', ...
-        'MarkerSize', 5);
+    plot(post_freq_peaks, post_peaks, 'mp');
 
     %  LABEL MATCHED PEAKS
     for p = 1:length(matched_pre_freq)
