@@ -4,14 +4,14 @@ close all; clear; clc;
 % ####
 
 % files
-pre_file  = 'X/RS_X/RS_preRND_X_1_HarmonicSpectrum.mat';
-post_file = 'X/RS_X/RS_postRND_X_1_HarmonicSpectrum.mat'; 
+pre_file  = 'Y/RS_Y/RS_preRND_Y_1_HarmonicSpectra.mat';
+post_file = 'Y/RS_Y/RS_postRND_Y_1_HarmonicSpectra.mat'; 
 
 % settings
-axis = 'X'; % plot only one axis of the accelerometers
+axis = 'Y'; % plot only one axis of the accelerometers
 
 % peak detection
-minPeakProminence = 0.4; % [g] minimum peak prominence
+minPeakProminence = 0.5; % [g] minimum peak prominence
 minPeakDistance   = 5; % [Hz] minimum distance between peaks
 
 % peak matching
@@ -35,8 +35,8 @@ names_pre  = pre.function_record.name;
 names_post = post.function_record.name;
 
 % find axis
-idx_pre  = endsWith(names_pre, axis);
-idx_post = endsWith(names_post, axis);
+idx_pre  = endsWith(names_pre, axis) & ~contains(names_pre, "Control");
+idx_post = endsWith(names_post, axis) & ~contains(names_pre, "Control");
 
 % extract selected channels
 f_pre  = f_pre(:, idx_pre);
@@ -121,7 +121,7 @@ for i = 1:nChannels
         20 * log10(matched_post_mag ./ matched_pre_mag);
 
     %  PLOT SPECTRA
-    subplot(2,3,i);
+    subplot(2,2,i);
 
     plot(pre_freq, pre_mag, 'g');
     hold on;
@@ -139,10 +139,7 @@ for i = 1:nChannels
     for p = 1:length(matched_pre_freq)
 
         % label near the pre-test peak
-        text(matched_pre_freq(p), ...
-             matched_pre_mag(p), ...
-             sprintf('  %.1f Hz', matched_pre_freq(p)), ...
-             'FontSize', 7);
+        %text(matched_pre_freq(p), matched_pre_mag(p), sprintf('  %.1f Hz', matched_pre_freq(p)), 'FontSize', 7);
     end
 
     %  GRAPH SETTINGS
